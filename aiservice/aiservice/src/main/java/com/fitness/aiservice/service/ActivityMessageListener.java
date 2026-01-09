@@ -13,9 +13,16 @@ public class ActivityMessageListener {
 
     private final ActivityAIService aiService;
 
-    @RabbitListener(queues = "activity.queue")
-    public void processActivity(Activity activity){
+    @RabbitListener(queues = "${rabbitmq.queue.name}")
+    public void processActivity(Activity activity) {
         log.info("Received activity for processing: {}", activity.getId());
-        log.info("Generated Recommendation: {}", aiService.generateRecommendation(activity));
+
+        try {
+            String recommendation = aiService.generateRecommendation(activity);
+            log.info("Generated Recommendation: {}", recommendation);
+        } catch (Exception e) {
+            // 🔑 CRITICAL: swallow exception so message is ACKed
+            log.error("AI processing failed for activity {}", activity.getId(), e);
+        }
     }
 }
