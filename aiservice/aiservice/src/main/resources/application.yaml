@@ -35,6 +35,7 @@ rabbitmq:
   routing:
     key: activity.tracking
 
+#GEMINI_URL=https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=;GEMINI_KEY=AIzaSyCzDk3XIhrzTQvlpdBV0VoZ2c3FrYDfSIY
 gemini:
   api:
     url: ${GEMINI_URL}
